@@ -1,0 +1,32 @@
+═══════════════════════════════════════════════════════════════════
+HOW TO ADD YOUR NICTM LOGO TO THE SYSTEM
+═══════════════════════════════════════════════════════════════════
+
+OPTION 1: ADD LOGO IMAGE (RECOMMENDED)
+───────────────────────────────────────
+1. Create folder "images" in your project
+2. Save your NICTM logo as: images/nictm-logo.png
+3. Logo will automatically appear as watermark on all pages!
+
+OPTION 2: IF YOU DON'T HAVE LOGO YET
+─────────────────────────────────────
+The system already shows "NICTM" text as watermark
+No action needed - it works out of the box!
+
+LOGO REQUIREMENTS:
+──────────────────
+- Format: PNG or JPG
+- Size: At least 500x500 pixels
+- Background: Transparent PNG works best
+- File name: MUST be "nictm-logo.png"
+- Location: images/nictm-logo.png
+
+WHERE THE LOGO APPEARS:
+───────────────────────
+✓ Login page - centered watermark
+✓ Register page - centered watermark  
+✓ Dashboard - centered watermark
+✓ All report pages - centered watermark
+✓ Search page - centered watermark
+
+The logo appears as a subtle green watermark behind all content!

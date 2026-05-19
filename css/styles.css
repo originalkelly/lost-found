@@ -1,0 +1,177 @@
+/* Shared base styles for NICTM Lost & Found */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #10B981;
+    --primary-dark: #059669;
+    --primary-light: #D1FAE5;
+    --secondary: #34D399;
+    --accent: #6EE7B7;
+    --dark: #1F2937;
+    --gray: #6B7280;
+    --light: #F9FAFB;
+    --white: #FFFFFF;
+    --danger: #EF4444;
+    --gradient: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 50%, #F0FDF4 100%);
+    min-height: 100vh;
+    position: relative;
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    background-image: url('../images/nictm-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.06;
+    z-index: 0;
+    pointer-events: none;
+}
+
+body::after {
+    content: 'NICTM';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 200px;
+    font-weight: 900;
+    color: rgba(16, 185, 129, 0.04);
+    z-index: 0;
+    letter-spacing: 30px;
+    pointer-events: none;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+body.no-watermark::before,
+body.no-watermark::after {
+    display: none;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.btn {
+    padding: 12px 24px;
+    background: var(--gradient);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.link:hover {
+    color: var(--primary-dark);
+}
+
+.error,
+.success {
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: none;
+}
+
+.error {
+    background: #FEE2E2;
+    color: var(--danger);
+}
+
+.success {
+    background: #D1FAE5;
+    color: var(--primary);
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.back-link a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-link a:hover {
+    color: var(--primary);
+}
+
+.spinner {
+    display: none;
+    border: 3px solid var(--light);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
