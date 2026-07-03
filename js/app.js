@@ -37,6 +37,9 @@ async function reportFoundItem(itemData, photoFile) {
         
         let photoUrl = null;
         
+        if (!storage) {
+            throw new Error("Firebase Storage not available. Check firebase-config.js and ensure firebase-storage-compat.js is loaded.");
+        }
         if (photoFile) {
             const storageRef = storage.ref();
             const photoRef = storageRef.child(`photos/${Date.now()}_${photoFile.name}`);
