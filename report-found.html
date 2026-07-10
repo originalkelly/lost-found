@@ -8,4 +8,50 @@
 <link rel="stylesheet" href="css/styles.css">
 <style>.container{position:relative;z-index:1;max-width:600px;margin:0 auto;background:#fff;padding:40px;border-radius:20px;box-shadow:0 20px 60px rgba(16,185,129,.2);border:3px solid #D1FAE5}.form-group{margin-bottom:20px}label{display:block;font-weight:600;margin-bottom:8px;color:#1F2937}input,select,textarea{width:100%;padding:12px;border:2px solid #E5E7EB;border-radius:10px;font-family:Inter,sans-serif;font-size:14px}input:focus,select:focus,textarea:focus{outline:0;border-color:#10B981;box-shadow:0 0 0 4px rgba(16,185,129,.1)}textarea{resize:vertical;min-height:100px}.btn{width:100%;padding:15px;background:linear-gradient(135deg,#10B981,#34D399);color:#fff;border:0;border-radius:12px;font-weight:600;cursor:pointer;margin-top:10px}.btn:hover{transform:translateY(-2px)}.photo-preview{max-width:100%;height:200px;object-fit:cover;border-radius:10px;margin-top:10px;display:none}</style>
 </head><body><div class="container"><h1 style="color:#10B981;margin-bottom:20px">🎉 Report Found Item</h1><form id="reportForm"><div class="form-group"><label>Category</label><select id="category" required><option value="">Select Category</option><option value="Phones">Phones</option><option value="Wallets">Wallets</option><option value="IDs">ID Cards</option><option value="Keys">Keys</option><option value="Bags">Bags</option><option value="Books">Books</option><option value="Electronics">Electronics</option><option value="Other">Other</option></select></div><div class="form-group"><label>Item Title</label><input type="text" id="title" placeholder="e.g., Black iPhone 12" required></div><div class="form-group"><label>Description</label><textarea id="description" placeholder="Describe the item in detail" required></textarea></div><div class="form-group"><label>Where did you find it?</label><select id="location" required><option value="">Select Location</option><option value="Library">Library</option><option value="Cafeteria">Cafeteria</option><option value="Lecture Hall">Lecture Hall</option><option value="Lab">Laboratory</option><option value="Hostel">Hostel</option><option value="Sports Complex">Sports Complex</option><option value="Admin Block">Admin Block</option></select></div><div class="form-group"><label>When did you find it?</label><input type="date" id="dateReported" required></div><div class="form-group"><label>Upload Photo</label><input type="file" id="photo" accept="image/*"><img id="preview" class="photo-preview"></div><button type="submit" class="btn">Report Found Item</button></form></div>
-<script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/app.js"></script><script>checkAuth();document.getElementById('photo').addEventListener('change',e=>{const file=e.target.files[0];if(file){const reader=new FileReader();reader.onload=e=>{document.getElementById('preview').src=e.target.result;document.getElementById('preview').style.display='block'};reader.readAsDataURL(file)}});document.getElementById('reportForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.target.querySelector('.btn');btn.disabled=true;btn.textContent='Uploading...';const photoFile=document.getElementById('photo').files[0];const result=await reportFoundItem({category:document.getElementById('category').value,title:document.getElementById('title').value,description:document.getElementById('description').value,location:document.getElementById('location').value,dateReported:document.getElementById('dateReported').value},photoFile);if(result.success){alert('✅ Found item reported successfully!');window.location.href='dashboard.html'}else{alert('❌ Error: '+result.error);btn.disabled=false;btn.textContent='Report Found Item'}});</script></body></html>
+<script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/app.js"></script><script>
+checkAuth();
+
+const photoInput = document.getElementById('photo');
+const preview = document.getElementById('preview');
+
+photoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+        preview.src = '';
+        preview.style.display = 'none';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        preview.src = event.target.result;
+        preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+});
+
+document.getElementById('reportForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn');
+    btn.disabled = true;
+    btn.textContent = 'Uploading...';
+
+    const photoFile = photoInput.files[0];
+    const result = await reportFoundItem({
+        category: document.getElementById('category').value,
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        location: document.getElementById('location').value,
+        dateReported: document.getElementById('dateReported').value
+    }, photoFile);
+
+    if (result.success) {
+        alert('✅ Found item reported successfully!');
+        window.location.href = 'dashboard.html';
+    } else {
+        alert('❌ Error: ' + result.error);
+        btn.disabled = false;
+        btn.textContent = 'Report Found Item';
+    }
+});
+</script></body></html>

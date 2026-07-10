@@ -34,20 +34,30 @@ async function reportFoundItem(itemData, photoFile) {
     try {
         const user = auth.currentUser;
         if (!user) throw new Error("User not authenticated");
-        
+
         let photoUrl = null;
-        
+
         if (!storage) {
-            throw new Error("Firebase Storage not available. Check firebase-config.js and ensure firebase-storage-compat.js is loaded.");
+            throw new Error("Firebase Storage is not available. Check the storage script and Firebase config.");
         }
+
         if (photoFile) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!allowedTypes.includes(photoFile.type)) {
+                throw new Error('Please choose a valid image file (JPEG, PNG, WEBP, or GIF).');
+            }
+
+            if (photoFile.size > 5 * 1024 * 1024) {
+                throw new Error('Image must be smaller than 5MB.');
+            }
+
             const storageRef = storage.ref();
-            const photoRef = storageRef.child(`photos/${Date.now()}_${photoFile.name}`);
+            const photoRef = storageRef.child(`photos/${user.uid}/${Date.now()}_${photoFile.name.replace(/\s+/g, '_')}`);
             const snapshot = await photoRef.put(photoFile);
             photoUrl = await snapshot.ref.getDownloadURL();
-            console.log("✅ Photo uploaded:", photoUrl);
+            console.log('✅ Photo uploaded:', photoUrl);
         }
-        
+
         const docRef = await db.collection('items').add({
             reportType: 'found',
             category: itemData.category,
@@ -61,12 +71,12 @@ async function reportFoundItem(itemData, photoFile) {
             reportedByEmail: user.email,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
-        console.log("✅ Found item reported:", docRef.id);
+
+        console.log('✅ Found item reported:', docRef.id);
         return { success: true, itemId: docRef.id };
-        
+
     } catch (error) {
-        console.error("❌ Error reporting found item:", error);
+        console.error('❌ Error reporting found item:', error);
         return { success: false, error: error.message };
     }
 }
